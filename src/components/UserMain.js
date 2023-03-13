@@ -25,7 +25,7 @@ const UserMain = () => {
                 <Text style={styles.text}>Takip Ediyor</Text>
             </View>
             <Modal style={{ margin: 0, backgroundColor: 'black' }} isVisible={isModalVisible}>
-                <Story />
+                <Story openModal={openModal}/>
             </Modal>
         </View>
     )
