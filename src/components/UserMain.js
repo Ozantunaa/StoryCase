@@ -6,6 +6,7 @@ import Story from './Story';
 
 const UserMain = () => {
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isAllShown, setIsAllShown] = useState(false);
 
     const openModal = () => {
         setModalVisible(!isModalVisible);
@@ -13,7 +14,7 @@ const UserMain = () => {
 
     return (
         <View style={styles.mainContainer}>
-            <TouchableOpacity onPress={openModal} style={styles.pictureContainer}>
+            <TouchableOpacity onPress={openModal} style={[styles.pictureContainer, { borderColor: isAllShown ? 'lightgray' : 'purple' }]}>
                 <Image style={styles.profilePicture} resizeMode='contain' source={require('../assest/images/profile.png')} />
             </TouchableOpacity>
             <View style={styles.info}>
@@ -25,7 +26,7 @@ const UserMain = () => {
                 <Text style={styles.text}>Takip Ediyor</Text>
             </View>
             <Modal style={{ margin: 0, backgroundColor: 'black' }} isVisible={isModalVisible}>
-                <Story openModal={openModal}/>
+                <Story setIsAllShown={setIsAllShown} openModal={openModal} />
             </Modal>
         </View>
     )
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     },
     pictureContainer: {
         borderWidth: 4,
-        borderColor: 'pink',
         borderRadius: 100,
         marginLeft: 16,
     },

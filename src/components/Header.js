@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
+import { useSelector } from 'react-redux'
 
 const Header = () => {
+    const userdata = useSelector((state) => state.userdata.userdata)
     return (
         <View style={styles.header}>
-            <Text style={styles.profileName}>Revy</Text>
+            <Text style={styles.profileName}>{userdata.username}</Text>
             <View style={styles.tickContainer}>
                 <Image style={styles.star} source={require('../assest/images/star.png')} />
                 <Image style={styles.tick} source={(require('../assest/images/tick.png'))} />
