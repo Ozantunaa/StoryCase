@@ -1,47 +1,58 @@
-import { useEffect, useRef, useState } from 'react';
-import { FlatList, Platform, StyleSheet, Image, View, StatusBar, Dimensions, TextInput, Text, Pressable } from 'react-native'
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FlatList, Platform, StyleSheet, Image, View, StatusBar, Dimensions, TextInput, Text, Pressable, TouchableOpacity } from 'react-native'
 import userdata from '../data/userdata'
-import * as Progress from 'react-native-progress';
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentIndex, setIsAllShown, setLastIndex } from '../store/storySlice';
 
 const width = Dimensions.get('screen').width
 
-const Story = ({ openModal, setIsAllShown }) => {
-
-    const [currentIndex, setCurrentIndex] = useState(0);
+const Story = ({ modalSettting, onDismiss }) => {
+    const dispatch = useDispatch();
     const flatListRef = useRef(null);
+
+    const currentIndex = useSelector((state) => state.userdata.currentIndex)
+    const lastIndex = useSelector((state) => state.userdata.lastIndex);
 
     const handleNext = () => {
         if (currentIndex < userdata.storyImages.length - 1) {
-            setCurrentIndex(currentIndex + 1);
+            dispatch(setCurrentIndex(currentIndex + 1));
             flatListRef.current.scrollToIndex({ index: currentIndex + 1 });
         } else {
-            setIsAllShown(true);
-            openModal()
+            dispatch(setIsAllShown(true));
+            dispatch(setLastIndex(currentIndex));
+            modalSettting();
+           
         }
     };
+
     const handleBack = () => {
         if (currentIndex > 0) {
-          setCurrentIndex(currentIndex - 1);
-          flatListRef.current.scrollToIndex({ index: currentIndex - 1 });
+            dispatch(setCurrentIndex(currentIndex - 1));
+            flatListRef.current.scrollToIndex({ index: currentIndex - 1 });
         }
-      };
+    };
 
     useEffect(() => {
-        const timer = setInterval(handleNext, 10000);
+        const timer = setInterval(handleNext, 2000);
         return () => clearInterval(timer);
     }, [currentIndex]);
 
+    const getItemLayout = useCallback((_, index) => ({
+        length: width, offset: width * index, index
+    }), []);
 
     return (
         <View style={styles.container}>
             <StatusBar barStyle={'light-content'} />
-            <Pressable onPress={handleBack} style={{left:0,bottom:0,position:'absolute',width:'50%', height:'90%',zIndex:1,flex:1}}></Pressable>
-            <Pressable onPress={handleNext} style={{right:0,bottom:0,position:'absolute',width:'50%', height:'90%',zIndex:1,flex:1}}></Pressable>
+            <Pressable onPress={handleBack} style={{ left: 0, bottom: 0, position: 'absolute', width: '50%', height: '90%', zIndex: 1, flex: 1 }}></Pressable>
+            <Pressable onPress={handleNext} style={{ right: 0, bottom: 0, position: 'absolute', width: '50%', height: '90%', zIndex: 1, flex: 1 }}></Pressable>
             <FlatList
                 ref={flatListRef}
                 keyExtractor={(item, index) => index.toString()}
                 data={userdata.storyImages}
                 horizontal
+                initialScrollIndex={lastIndex}
+                getItemLayout={getItemLayout}
                 showsHorizontalScrollIndicator={false}
                 scrollEnabled={false}
                 renderItem={({ item, index }) => (
@@ -54,15 +65,15 @@ const Story = ({ openModal, setIsAllShown }) => {
                             </View>
                             <View style={styles.closeModal}>
                                 <Text style={styles.dots}>...</Text>
-                                <Pressable onPress={openModal}>
+                                <TouchableOpacity onPress={onDismiss}>
                                     <Text style={styles.close}>X</Text>
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <Image style={styles.image} source={item} />
                     </>
                 )}
-                
+
             />
             <View style={styles.bottomContainer}>
                 <TextInput

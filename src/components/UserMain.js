@@ -1,20 +1,33 @@
 import { useState } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
 import Modal from 'react-native-modal'
+import { useDispatch, useSelector } from 'react-redux';
+import { setLastIndex } from '../store/storySlice';
 
 import Story from './Story';
 
 const UserMain = () => {
-    const [isModalVisible, setModalVisible] = useState(false);
-    const [isAllShown, setIsAllShown] = useState(false);
+    const dispatch = useDispatch();
+    const isAllShown = useSelector((state) => state.userdata.isAllShown);
+    const lastIndex = useSelector((state) => state.userdata.lastIndex);
+    const currentIndex = useSelector((state) => state.userdata.currentIndex);
 
-    const openModal = () => {
-        setModalVisible(!isModalVisible);
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const modalSettting = () => {
+          setModalVisible(!isModalVisible);
     };
+    
+    const handleModalHide = () => {
+        if (!isAllShown) {
+          dispatch(setLastIndex(currentIndex));
+        }
+        setModalVisible(false)
+      }
 
     return (
         <View style={styles.mainContainer}>
-            <TouchableOpacity onPress={openModal} style={[styles.pictureContainer, { borderColor: isAllShown ? 'lightgray' : 'purple' }]}>
+            <TouchableOpacity onPress={modalSettting} style={[styles.pictureContainer, { borderColor: isAllShown ? 'lightgray' : 'purple' }]}>
                 <Image style={styles.profilePicture} resizeMode='contain' source={require('../assest/images/profile.png')} />
             </TouchableOpacity>
             <View style={styles.info}>
@@ -26,7 +39,7 @@ const UserMain = () => {
                 <Text style={styles.text}>Takip Ediyor</Text>
             </View>
             <Modal style={{ margin: 0, backgroundColor: 'black' }} isVisible={isModalVisible}>
-                <Story setIsAllShown={setIsAllShown} openModal={openModal} />
+                <Story modalSettting={modalSettting} onDismiss={handleModalHide} />
             </Modal>
         </View>
     )
