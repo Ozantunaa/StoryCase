@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { FlatList, Platform, StyleSheet, Image, View, StatusBar, Dimensions, TextInput, Text, Pressable, TouchableOpacity } from 'react-native'
-import userdata from '../data/userdata'
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentIndex, setIsAllShown, setLastIndex } from '../store/storySlice';
 
@@ -10,7 +9,8 @@ const Story = ({ modalSettting, onDismiss }) => {
     const dispatch = useDispatch();
     const flatListRef = useRef(null);
 
-    const currentIndex = useSelector((state) => state.userdata.currentIndex)
+    const userdata = useSelector((state) => state.userdata.userdata);
+    const currentIndex = useSelector((state) => state.userdata.currentIndex);
     const lastIndex = useSelector((state) => state.userdata.lastIndex);
 
     const handleNext = () => {
@@ -21,7 +21,6 @@ const Story = ({ modalSettting, onDismiss }) => {
             dispatch(setIsAllShown(true));
             dispatch(setLastIndex(currentIndex));
             modalSettting();
-           
         }
     };
 
@@ -32,10 +31,10 @@ const Story = ({ modalSettting, onDismiss }) => {
         }
     };
 
-    useEffect(() => {
-        const timer = setInterval(handleNext, 2000);
-        return () => clearInterval(timer);
-    }, [currentIndex]);
+    /*  useEffect(() => {
+         const timer = setInterval(handleNext, 2000);
+         return () => clearInterval(timer);
+     }, [currentIndex]); */
 
     const getItemLayout = useCallback((_, index) => ({
         length: width, offset: width * index, index
@@ -44,8 +43,8 @@ const Story = ({ modalSettting, onDismiss }) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle={'light-content'} />
-            <Pressable onPress={handleBack} style={{ left: 0, bottom: 0, position: 'absolute', width: '50%', height: '90%', zIndex: 1, flex: 1 }}></Pressable>
-            <Pressable onPress={handleNext} style={{ right: 0, bottom: 0, position: 'absolute', width: '50%', height: '90%', zIndex: 1, flex: 1 }}></Pressable>
+            <Pressable onPress={handleBack} style={styles.back}></Pressable>
+            <Pressable onPress={handleNext} style={styles.next}></Pressable>
             <FlatList
                 ref={flatListRef}
                 keyExtractor={(item, index) => index.toString()}
@@ -55,19 +54,32 @@ const Story = ({ modalSettting, onDismiss }) => {
                 getItemLayout={getItemLayout}
                 showsHorizontalScrollIndicator={false}
                 scrollEnabled={false}
-                renderItem={({ item, index }) => (
+                renderItem={({ item }) => (
                     <>
-                        <View style={styles.storyHeader}>
-                            <View style={styles.listRow}>
-                                <Image style={styles.profileImage} source={userdata.profileImage} />
-                                <Text style={styles.text}>{userdata.username}</Text>
-                                <Text style={styles.time}>3h</Text>
+                        <View style={styles.headerConatiner}>
+                            <View style={styles.lineContainer}>
+                                {userdata.storyImages.map((_, i) => (
+                                    <View
+                                        key={i}
+                                        style={[
+                                            styles.line,
+                                            { backgroundColor: i <= currentIndex ? '#FFCC00' : 'white' },
+                                        ]}
+                                    />
+                                ))}
                             </View>
-                            <View style={styles.closeModal}>
-                                <Text style={styles.dots}>...</Text>
-                                <TouchableOpacity onPress={onDismiss}>
-                                    <Text style={styles.close}>X</Text>
-                                </TouchableOpacity>
+                            <View style={styles.storyHeader}>
+                                <View style={styles.listRow}>
+                                    <Image style={styles.profileImage} source={userdata.profileImage} />
+                                    <Text style={styles.text}>{userdata.username}</Text>
+                                    <Text style={styles.time}>3h</Text>
+                                </View>
+                                <View style={styles.closeModal}>
+                                    <Text style={styles.dots}>...</Text>
+                                    <TouchableOpacity onPress={onDismiss}>
+                                        <Text style={styles.close}>X</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                         <Image style={styles.image} source={item} />
@@ -101,10 +113,27 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 8
     },
-    storyHeader: {
+    lineContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    line: {
+        width: width / 4.4,
+        height: 2,
+        borderRadius: 10,
+        marginHorizontal: 4,
+
+    },
+    headerConatiner: {
         position: 'absolute',
         top: 10,
         zIndex: 1,
+        flexDirection: 'column',
+
+    },
+    storyHeader: {
+        marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -163,5 +192,13 @@ const styles = StyleSheet.create({
         marginRight: 8,
         fontWeight: '400',
         color: 'white'
+    },
+    back: {
+       left:0, marginTop: width / 7, position: 'absolute',
+        width: '50%', height: '84%', zIndex: 1,
+    },
+    next: {
+        right: 0, marginTop: width / 7, position: 'absolute',
+        width: '50%', height: '84%', zIndex: 1, 
     }
 })

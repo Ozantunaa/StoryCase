@@ -9,7 +9,6 @@ import Story from './Story';
 const UserMain = () => {
     const dispatch = useDispatch();
     const isAllShown = useSelector((state) => state.userdata.isAllShown);
-    const lastIndex = useSelector((state) => state.userdata.lastIndex);
     const currentIndex = useSelector((state) => state.userdata.currentIndex);
 
     const [isModalVisible, setModalVisible] = useState(false);
