@@ -1,4 +1,4 @@
-import {SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native'
 import BottomTab from '../components/BottomTab';
 
 import Header from '../components/Header'
