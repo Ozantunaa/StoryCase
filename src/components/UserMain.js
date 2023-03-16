@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal'
 import { useDispatch, useSelector } from 'react-redux';
