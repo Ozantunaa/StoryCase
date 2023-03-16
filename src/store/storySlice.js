@@ -5,7 +5,8 @@ const initialState = {
     userdata: userdata,
     currentIndex: 0,
     isAllShown: false,
-    lastIndex: null
+    lastIndex: null,
+    viewedStory: []
 };
 
 export const storySlice = createSlice({
@@ -20,8 +21,11 @@ export const storySlice = createSlice({
         },
         setLastIndex: (state, action) => {
             state.lastIndex = action.payload
+        },
+        setViewedStory: (state, action) => {
+            state.viewedStory.push(action.payload.toString())
         }
     }
 });
 
-export const { setCurrentIndex, setIsAllShown,setLastIndex } = storySlice.actions;
+export const { setCurrentIndex, setIsAllShown, setLastIndex, setViewedStory } = storySlice.actions;

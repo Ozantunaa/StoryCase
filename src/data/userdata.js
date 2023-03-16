@@ -8,5 +8,4 @@ export default {
             require('../assest/images/story4.png'),
         ],
         username: "Revy",
-    
     }

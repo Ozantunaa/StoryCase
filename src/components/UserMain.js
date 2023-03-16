@@ -20,9 +20,9 @@ const UserMain = () => {
     const handleModalHide = () => {
         if (!isAllShown) {
           dispatch(setLastIndex(currentIndex));
-        }
+        };
         setModalVisible(false)
-      }
+      };
 
     return (
         <View style={styles.mainContainer}>
@@ -41,8 +41,8 @@ const UserMain = () => {
                 <Story modalSettting={modalSettting} onDismiss={handleModalHide} />
             </Modal>
         </View>
-    )
-}
+    );
+};
 
 export default UserMain
 
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     mainContainer: {
         alignItems: 'center',
         flexDirection: 'row',
-
     },
     profilePicture: {
         width: 86,
@@ -79,4 +78,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 26
     }
-})
+});

@@ -11,8 +11,8 @@ const Header = () => {
                 <Image style={styles.tick} source={(require('../assest/images/tick.png'))} />
             </View>
         </View>
-    )
-}
+    );
+};
 
 export default Header
 
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
         width: 13,
         height: 13
     },
-})
+});

@@ -9,13 +9,11 @@ const Home = () => {
             <StatusBar barStyle={'default'}/>
             {/* Header */}
             <Header />
-
             {/* Main */}
             <UserMain />
-
         </SafeAreaView>
-    )
-}
+    );
+};
 
 export default Home
 
@@ -23,5 +21,4 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-
-})
+});
