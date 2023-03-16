@@ -5,6 +5,7 @@ const Header = () => {
     const userdata = useSelector((state) => state.userdata.userdata)
     return (
         <View style={styles.header}>
+            <Image style={styles.backButton} source={require('../assest/images/darkback.png')}/>
             <Text style={styles.profileName}>{userdata.username}</Text>
             <View style={styles.tickContainer}>
                 <Image style={styles.star} source={require('../assest/images/star.png')} />
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
     header: {
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginVertical:10
     },
     profileName: {
         fontSize: 16,
@@ -39,4 +41,9 @@ const styles = StyleSheet.create({
         width: 13,
         height: 13
     },
+    backButton:{
+        position:'absolute',
+        left:12,
+        
+    }
 });

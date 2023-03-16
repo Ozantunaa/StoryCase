@@ -1,4 +1,4 @@
-import { useCallback, useRef,useEffect } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { FlatList, Platform, StyleSheet, Image, View, StatusBar, Dimensions, TextInput, Pressable } from 'react-native'
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentIndex, setIsAllShown, setLastIndex, setViewedStory } from '../store/storySlice';
@@ -14,7 +14,7 @@ const Story = ({ modalSettting, onDismiss }) => {
     const userdata = useSelector((state) => state.userdata.userdata);
     const currentIndex = useSelector((state) => state.userdata.currentIndex);
     const lastIndex = useSelector((state) => state.userdata.lastIndex);
-    
+
     const handleNext = () => {
         if (currentIndex < userdata.storyImages.length - 1) {
             dispatch(setCurrentIndex(currentIndex + 1));
@@ -100,8 +100,9 @@ const styles = StyleSheet.create({
     input: {
         borderColor: '#9A9A9A',
         borderWidth: 1,
-        padding: 12,
-        borderRadius: 20,
+        padding: Platform.OS === 'android' ? 6 : 14,
+        paddingLeft: 14,
+        borderRadius: 30,
         flex: 1,
         color: 'white'
     },

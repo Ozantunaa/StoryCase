@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal'
 import { useDispatch, useSelector } from 'react-redux';
 import { setLastIndex } from '../store/storySlice';
@@ -14,21 +15,23 @@ const UserMain = () => {
     const [isModalVisible, setModalVisible] = useState(false);
 
     const modalSettting = () => {
-          setModalVisible(!isModalVisible);
+        setModalVisible(!isModalVisible);
     };
-    
+
     const handleModalHide = () => {
         if (!isAllShown) {
-          dispatch(setLastIndex(currentIndex));
+            dispatch(setLastIndex(currentIndex));
         };
         setModalVisible(false)
-      };
+    };
 
     return (
         <View style={styles.mainContainer}>
-            <TouchableOpacity onPress={modalSettting} style={[styles.pictureContainer, { borderColor: isAllShown ? 'lightgray' : 'purple' }]}>
-                <Image style={styles.profilePicture} resizeMode='contain' source={require('../assest/images/profile.png')} />
-            </TouchableOpacity>
+            <LinearGradient start={{x: 1, y: 0}} colors={['#8A3BEE', '#F200B7', '#FE9402']} style={{borderRadius:100,marginLeft:10}}>
+                <Pressable onPress={modalSettting} style={[styles.pictureContainer, { borderColor: isAllShown ? 'lightgray' : 'transparent' }]}>
+                    <Image style={styles.profilePicture} resizeMode='contain' source={require('../assest/images/profile.png')} />
+                </Pressable>
+            </LinearGradient>
             <View style={styles.info}>
                 <Text style={styles.number}>6956</Text>
                 <Text style={styles.text}>Takipçi</Text>
@@ -51,6 +54,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
     },
+
     profilePicture: {
         width: 86,
         height: 86,
@@ -58,7 +62,6 @@ const styles = StyleSheet.create({
     pictureContainer: {
         borderWidth: 4,
         borderRadius: 100,
-        marginLeft: 16,
     },
     number: {
         fontSize: 16,
