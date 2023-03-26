@@ -1,7 +1,7 @@
 ### Instagram Story Uygulaması Kurulumu
 Aşağıdaki adımları takip ederek Story React Native uygulamasının nasıl kurulacağını öğrenebilirsiniz.
 
-<img src="https://user-images.githubusercontent.com/105156986/225743499-1333ee23-e1e9-49b5-aa33-c79c36c9d9e3.gif" width="125" height="250"/>
+<img src="https://user-images.githubusercontent.com/105156986/225743499-1333ee23-e1e9-49b5-aa33-c79c36c9d9e3.gif" width="250" height="500"/>
 
 ### Ön Gereksinimler
 - Node.js (sürüm 12 veya üstü)
